@@ -15,7 +15,13 @@ export default function SalesPage() {
     const [sales, setSales] = useState<Sale[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-    const email = localStorage.getItem("email"); // Se debe obtener de la autenticación
+    const [email, setEmail] = useState<string | null>(null);
+
+    useEffect(() => {
+        // Obtener email solo en el cliente
+        const storedEmail = localStorage.getItem("email");
+        setEmail(storedEmail);
+    }, []);
 
     useEffect(() => {
         if (!email) return;
@@ -25,7 +31,7 @@ export default function SalesPage() {
                 const salesData = await fetchUserSales(email);
                 setSales(salesData);
             } catch (err) {
-                console.log(err)
+                console.log(err);
                 setError("No se pudieron cargar las compras");
             } finally {
                 setLoading(false);
