@@ -46,6 +46,7 @@ export default function ReportsPage() {
                 setTopSellingProducts(topProducts);
                 setFrequentCustomers(customers);
             } catch (err) {
+                console.log(err)
                 setError("Error al cargar los reportes.");
             } finally {
                 setLoading(false);

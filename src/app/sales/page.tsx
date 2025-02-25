@@ -25,6 +25,7 @@ export default function SalesPage() {
                 const salesData = await fetchUserSales(email);
                 setSales(salesData);
             } catch (err) {
+                console.log(err)
                 setError("No se pudieron cargar las compras");
             } finally {
                 setLoading(false);
@@ -44,7 +45,7 @@ export default function SalesPage() {
                 Aquí puedes ver todas tus compras ordenadas cronológicamente. Cada tarjeta
                 muestra el total de la compra, que es la suma de los productos adquiridos menos
                 cualquier descuento aplicado. Para ver más detalles de cada compra, haz clic en
-                "Ver detalles".
+                &quot;Ver detalles&quot;.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-items-center">
                 {sales.map((sale) => (

@@ -3,7 +3,13 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ShoppingCartIcon } from "@heroicons/react/24/solid";
-
+import Image from 'next/image';
+interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+}
 export default function Navbar() {
   const [user, setUser] = useState<{ name: string; role: string } | null>(null);
   const [cartCount, setCartCount] = useState(0);
@@ -20,7 +26,7 @@ export default function Navbar() {
     // Función para actualizar el contador del carrito
     const updateCartCount = () => {
       const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      setCartCount(cart.reduce((acc: number, item: any) => acc + item.quantity, 0));
+      setCartCount(cart.reduce((acc: number, item: CartItem) => acc + item.quantity, 0));
     };
 
     updateCartCount(); // Actualizar al montar el componente
@@ -46,7 +52,7 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 w-full bg-gray-100 text-white p-4 flex justify-between items-center z-50 shadow-md">
-      <img
+      <Image
         src="https://talataa.co/wp-content/uploads/2022/04/cropped-no-background.png"
         alt="Logo"
         width={80}

@@ -29,6 +29,12 @@ export interface DiscountProfile {
   discountPercentage: number;
 }
 
+export interface FrequentCustomers {
+  email: string;
+  name: string;
+  avgSales: number;
+}
+
 
 export async function fetchProducts() {
   const res = await fetch(`${API_URL}/products`, { cache: "no-store" });
@@ -116,7 +122,7 @@ async function checkFrequentBuyer(email: string): Promise<boolean> {
     if (!response.ok) throw new Error("Error al obtener la lista de clientes frecuentes");
 
     const topCustomers = await response.json();
-    return topCustomers.some((customer: any) => customer.email === email);
+    return topCustomers.some((customer: FrequentCustomers) => customer.email === email);
   } catch (error) {
     console.error("Error verificando cliente frecuente:", error);
     return false;

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from 'next/image';
 
 interface ProductCardProps {
   product: {
@@ -13,7 +14,7 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
   return (
     <div key={product.id} className="bg-white shadow-md rounded-lg p-4 flex flex-col">
-      <img
+      <Image
         src={`/images/${product.id}.jpg`}
         alt={product.name}
         className="w-full h-48 object-cover rounded-lg"

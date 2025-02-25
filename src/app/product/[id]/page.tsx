@@ -4,12 +4,19 @@ import { notFound, useRouter } from "next/navigation";
 import { fetchProductById } from "@/lib/api";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import Image from 'next/image';
 
 interface Product {
   id: string;
   name: string;
   description: string;
   price: number;
+}
+interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
 }
 
 export default function ProductPage() {
@@ -48,7 +55,7 @@ export default function ProductPage() {
     }
 
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    const existingProductIndex = cart.findIndex((item: any) => item.id === product?.id);
+    const existingProductIndex = cart.findIndex((item: CartItem) => item.id === product?.id);
 
     if (existingProductIndex !== -1) {
       cart[existingProductIndex].quantity += 1;
@@ -65,7 +72,7 @@ export default function ProductPage() {
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
-      <img src={`/images/${product.id}.jpg`} width={400} height={400} alt={product.name} className="rounded-lg" />
+      <Image src={`/images/${product.id}.jpg`} width={400} height={400} alt={product.name} className="rounded-lg" />
       <p className="text-lg text-gray-700 my-4">{product.description}</p>
       <p className="text-2xl font-semibold">${product.price}</p>
       <button

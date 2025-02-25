@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { fetchTopSellingProducts, fetchActiveProducts } from "@/lib/api"; // Importar la función de productos activos
 import Link from "next/link";
+import Image from 'next/image';
 
 interface Product {
   id: number;
@@ -100,7 +101,7 @@ export default function HomePage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {topProducts.map((product) => (
             <div key={product.id} className="border rounded-lg p-4 flex flex-col h-full">
-              <img src={`/images/${product.id}.jpg`} alt={product.name} className="w-full h-40 object-cover rounded-lg" />
+              <Image  src={`/images/${product.id}.jpg`} alt={product.name} className="w-full h-40 object-cover rounded-lg" />
               <h3 className="text-xl font-semibold mt-2">{product.name}</h3>
               <p className="text-gray-700 flex-grow">{product.description}</p>
               <p className="text-lg font-bold mt-2">${product.price}</p>

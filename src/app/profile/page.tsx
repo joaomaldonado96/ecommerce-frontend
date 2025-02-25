@@ -40,6 +40,7 @@ export default function ProfilePage() {
           role: data.role, // Se envía pero no se muestra
         });
       } catch (err) {
+        console.log(err)
         setError("Error al cargar el perfil.");
       } finally {
         setLoading(false);
@@ -81,6 +82,7 @@ export default function ProfilePage() {
       // ✅ Recargar la página para reflejar los cambios en la Navbar
       window.location.reload();
     } catch (err) {
+      console.log(err)
       setError("Error al actualizar el perfil.");
     }
   };
