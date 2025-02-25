@@ -53,7 +53,7 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 w-full bg-gray-100 text-white p-4 flex justify-between items-center z-50 shadow-md">
       <Image
-        src="https://talataa.co/wp-content/uploads/2022/04/cropped-no-background.png"
+        src="/images/homeImage.png"
         alt="Logo"
         width={80}
         height={80}
