@@ -127,18 +127,18 @@ export default function HomePage() {
 
       <section className="py-16 text-center bg-gray-100">
         <h2 className="text-4xl font-bold mb-6"> Testimonios de Clientes</h2>
-        <p className="text-lg italic mb-6">"ultimos comentarios"</p>
+        <p className="text-lg italic mb-6">ultimos comentarios</p>
         <div className="max-w-3xl mx-auto space-y-6">
           <blockquote className="bg-white p-6 rounded-lg shadow-md">
-            <p className="text-gray-700">"Excelente servicio y productos de gran calidad. ¡100% recomendado!"</p>
+            <p className="text-gray-700">Excelente servicio y productos de gran calidad. ¡100% recomendado!</p>
             <span className="block mt-2 text-sm font-semibold">- Juan P.</span>
           </blockquote>
           <blockquote className="bg-white p-6 rounded-lg shadow-md">
-            <p className="text-gray-700">"Rápido envío y atención increíble. Volveré a comprar sin duda."</p>
+            <p className="text-gray-700">Rápido envío y atención increíble. Volveré a comprar sin duda.</p>
             <span className="block mt-2 text-sm font-semibold">- María G.</span>
           </blockquote>
           <blockquote className="bg-white p-6 rounded-lg shadow-md">
-            <p className="text-gray-700">"Gran variedad y precios justos. Me encantó la experiencia de compra."</p>
+            <p className="text-gray-700">Gran variedad y precios justos. Me encantó la experiencia de compra.</p>
             <span className="block mt-2 text-sm font-semibold">- Carlos R.</span>
           </blockquote>
         </div>
