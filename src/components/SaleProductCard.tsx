@@ -1,5 +1,4 @@
 
-import Image from 'next/image';
 interface Product {
     id: number;
     name: string;
@@ -23,11 +22,6 @@ interface Product {
   
     return (
       <div key={saleProduct.product.id} className="bg-white shadow-lg rounded-lg overflow-hidden">
-        <Image
-          src={`/images/${saleProduct.product.id}.jpg`}
-          alt={saleProduct.product.name}
-          className="w-full h-48 object-cover"
-        />
         <div className="p-4">
           <h2 className="text-lg font-semibold">{saleProduct.product.name}</h2>
           <p className="text-gray-600 text-sm">{saleProduct.product.description}</p>

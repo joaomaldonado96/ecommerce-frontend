@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { fetchProducts, updateProduct } from "@/lib/api"; // Importa las funciones de la API
+import { fetchProducts, updateProduct, createProduct } from "@/lib/api"; // Importa las funciones de la API
 
 export interface ProductProfile {
     id: number;
@@ -19,6 +19,14 @@ const ProductsAdminPage = () => {
   const [editingProduct, setEditingProduct] = useState<ProductProfile | null>(null);
   const [updatedData, setUpdatedData] = useState<Partial<ProductProfile>>({});
   const [successMessage, setSuccessMessage] = useState<string | null>(null); // Estado para el mensaje de éxito
+  const [newProduct, setNewProduct] = useState<Omit<ProductProfile, "id" | "createdAt" | "updatedAt">>({
+      name: "",
+      description: "",
+      price: 0,
+      stock: 0,
+      isActive: true,
+      updatedByEmail: "",
+    });
 
   useEffect(() => {
     const getProducts = async () => {
@@ -79,6 +87,22 @@ const ProductsAdminPage = () => {
     }
   };
 
+  const handleCreateProduct = async () => {
+    try {
+      const updatedByEmail = localStorage.getItem("email");
+      if (!updatedByEmail) {
+        throw new Error("No se encontró el correo electrónico en el almacenamiento local.");
+      }
+
+      const createdProduct = await createProduct({ ...newProduct, updatedByEmail });
+      setProducts([...products, createdProduct]);
+      setSuccessMessage("¡Producto creado con éxito!");
+      setNewProduct({ name: "", description: "", price: 0, stock: 0, isActive: true, updatedByEmail: "" });
+    } catch (error) {
+      console.error("Error al crear el producto:", error);
+    }
+  };
+
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">Gestión de Productos</h1>
@@ -89,6 +113,18 @@ const ProductsAdminPage = () => {
           {successMessage}
         </div>
       )}
+      
+      {/* Formulario de Creación */}
+      <section className="mb-8">
+        <h2 className="text-2xl font-semibold mb-4">Crear Producto</h2>
+        <div className="space-y-4">
+          <input type="text" placeholder="Nombre" value={newProduct.name} onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })} className="w-full border p-2 rounded" />
+          <textarea placeholder="Descripción" value={newProduct.description} onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })} className="w-full border p-2 rounded" />
+          <input type="number" placeholder="Precio" value={newProduct.price} onChange={(e) => setNewProduct({ ...newProduct, price: parseFloat(e.target.value) })} className="w-full border p-2 rounded" />
+          <input type="number" placeholder="Stock" value={newProduct.stock} onChange={(e) => setNewProduct({ ...newProduct, stock: parseInt(e.target.value, 10) })} className="w-full border p-2 rounded" />
+          <button onClick={handleCreateProduct} className="bg-green-500 text-white px-6 py-2 rounded">Crear Producto</button>
+        </div>
+      </section>
 
       {/* Tabla de Productos */}
       <section className="mb-8">

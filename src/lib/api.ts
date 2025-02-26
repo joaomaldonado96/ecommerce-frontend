@@ -280,3 +280,17 @@ export const updateDiscount = async (id: number, updatedData: Partial<DiscountPr
 
   return response.json();
 };
+
+export const createProduct = async (productData: Omit<ProductProfile, "id" | "createdAt" | "updatedAt">) => {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(productData),
+  });
+
+  if (!response.ok) {
+    throw new Error("Error al crear el producto");
+  }
+
+  return response.json();
+};

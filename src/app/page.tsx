@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchTopSellingProducts, fetchActiveProducts } from "@/lib/api"; // Importar la función de productos activos
+import { fetchTopSellingProducts, fetchActiveProducts } from "@/lib/api"; 
 import Link from "next/link";
-import Image from 'next/image';
 
 interface Product {
   id: number;
@@ -23,6 +22,21 @@ interface ProductSale {
 
 export default function HomePage() {
   const [topProducts, setTopProducts] = useState<Product[]>([]);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkAuth = () => {
+      const token = localStorage.getItem("email"); 
+      setIsAuthenticated(!!token);
+    };
+
+    checkAuth();
+    window.addEventListener("storage", checkAuth);
+
+    return () => {
+      window.removeEventListener("storage", checkAuth);
+    };
+  }, []);
 
   useEffect(() => {
     const getTopProducts = async () => {
@@ -39,13 +53,12 @@ export default function HomePage() {
 
   const handleRandomOrder = async () => {
     try {
-      const products = await fetchActiveProducts(); // Obtener productos activos
+      const products = await fetchActiveProducts();
       if (products.length === 0) {
         alert("No hay productos activos disponibles.");
         return;
       }
 
-      // Seleccionar aleatoriamente hasta 4 productos
       const shuffled = products.sort(() => 0.5 - Math.random()).slice(0, 4);
       const randomCartItems = shuffled.map((product: ProductSale) => ({
         id: product.id.toString(),
@@ -54,13 +67,9 @@ export default function HomePage() {
         quantity: 1
       }));
 
-      // Obtener el carrito actual y actualizarlo
-      const updatedCart = [...randomCartItems];
+      localStorage.setItem("cart", JSON.stringify(randomCartItems));
+      localStorage.setItem("specialDiscount", "50"); 
 
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
-      localStorage.setItem("specialDiscount", "50"); // Guardar el descuento especial
-
-      // Emitir evento para actualizar el Navbar
       window.dispatchEvent(new Event("cartUpdated"));
 
       alert("Pedido aleatorio agregado con 50% de descuento.");
@@ -86,22 +95,23 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="py-16 text-center">
-        <h2 className="text-4xl font-bold mb-6"> ¿Te animas a un pedido aleatorio?</h2>
-        <button
-          className="bg-purple-500 text-white px-6 py-3 text-lg font-semibold rounded-lg hover:bg-purple-600"
-          onClick={handleRandomOrder}
-        >
-          Generar Pedido Aleatorio
-        </button>
-      </section>
+      {isAuthenticated && (
+        <section className="py-16 text-center">
+          <h2 className="text-4xl font-bold mb-6"> ¿Te animas a un pedido aleatorio?</h2>
+          <button
+            className="bg-purple-500 text-white px-6 py-3 text-lg font-semibold rounded-lg hover:bg-purple-600"
+            onClick={handleRandomOrder}
+          >
+            Generar Pedido Aleatorio
+          </button>
+        </section>
+      )}
 
       <section className="py-16">
         <h2 className="text-4xl font-bold text-center mb-10">🔥 Top 5 Más Vendidos</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {topProducts.map((product) => (
             <div key={product.id} className="border rounded-lg p-4 flex flex-col h-full">
-              <Image  src={`/images/${product.id}.jpg`} alt={product.name} className="w-full h-40 object-cover rounded-lg" />
               <h3 className="text-xl font-semibold mt-2">{product.name}</h3>
               <p className="text-gray-700 flex-grow">{product.description}</p>
               <p className="text-lg font-bold mt-2">${product.price}</p>
@@ -112,6 +122,34 @@ export default function HomePage() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="py-16 text-center bg-gray-100">
+        <h2 className="text-4xl font-bold mb-6"> Testimonios de Clientes</h2>
+        <p className="text-lg italic mb-6">"ultimos comentarios"</p>
+        <div className="max-w-3xl mx-auto space-y-6">
+          <blockquote className="bg-white p-6 rounded-lg shadow-md">
+            <p className="text-gray-700">"Excelente servicio y productos de gran calidad. ¡100% recomendado!"</p>
+            <span className="block mt-2 text-sm font-semibold">- Juan P.</span>
+          </blockquote>
+          <blockquote className="bg-white p-6 rounded-lg shadow-md">
+            <p className="text-gray-700">"Rápido envío y atención increíble. Volveré a comprar sin duda."</p>
+            <span className="block mt-2 text-sm font-semibold">- María G.</span>
+          </blockquote>
+          <blockquote className="bg-white p-6 rounded-lg shadow-md">
+            <p className="text-gray-700">"Gran variedad y precios justos. Me encantó la experiencia de compra."</p>
+            <span className="block mt-2 text-sm font-semibold">- Carlos R.</span>
+          </blockquote>
+        </div>
+      </section>
+
+      <section className="py-16 text-center">
+        <h2 className="text-4xl font-bold mb-6">🛍️ Beneficios de Comprar Aquí</h2>
+        <div className="flex justify-center space-x-10 text-lg">
+          <div>🚀 Envío rápido</div>
+          <div>✅ Garantía de satisfacción</div>
+          <div>🔒 Métodos de pago seguros</div>
         </div>
       </section>
     </div>

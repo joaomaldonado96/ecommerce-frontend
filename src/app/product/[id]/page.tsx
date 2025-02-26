@@ -4,7 +4,6 @@ import { notFound, useRouter } from "next/navigation";
 import { fetchProductById } from "@/lib/api";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import Image from 'next/image';
 
 interface Product {
   id: string;
@@ -72,7 +71,6 @@ export default function ProductPage() {
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
-      <Image src={`/images/${product.id}.jpg`} width={400} height={400} alt={product.name} className="rounded-lg" />
       <p className="text-lg text-gray-700 my-4">{product.description}</p>
       <p className="text-2xl font-semibold">${product.price}</p>
       <button
