@@ -48,6 +48,7 @@ Asegúrate de tener instalado lo siguiente:
 ## 🔧 Dependencias de desarrollo
 - `@testing-library/react`, `@testing-library/jest-dom`, `jest`, `jest-environment-jsdom` → Testing.
 - `eslint`, `eslint-config-next` → Linter para asegurar calidad del código.
+- `prettier` → Formateador de código.
 - `tailwindcss`, `postcss`, `autoprefixer` → Estilización.
 - `typescript`, `ts-node`, `@types/react`, `@types/node` → Tipado estático con TypeScript.
 
@@ -75,8 +76,25 @@ npm run dev      # Ejecutar en modo desarrollo
 npm run build    # Construir la aplicación
 npm run start    # Ejecutar la aplicación en producción
 npm run lint     # Ejecutar ESLint
+npm run format   # Ejecutar Prettier para formatear el código
 npm run test     # Ejecutar pruebas unitarias con Jest
 npm run test:watch  # Ejecutar pruebas en modo watch
+```
+
+## 📝 Análisis estático de código
+Para asegurar la calidad del código, este proyecto utiliza **ESLint** y **Prettier**.
+
+### **Linting**
+Para revisar y corregir problemas de estilo y errores en el código:
+```bash
+npm run lint
+```
+
+## 📜 Documentación de la API
+El backend proporciona documentación interactiva con **Swagger**. Para acceder a ella, consulta:
+
+```
+http://localhost:8080/swagger-ui/
 ```
 
 ## 🚀 Despliegue
